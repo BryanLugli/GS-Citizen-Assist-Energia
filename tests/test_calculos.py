@@ -97,6 +97,13 @@ class TestRespostas(unittest.TestCase):
             resp, _ = r.responder(q, P, META)
             self.assertIsNotNone(resp, q)
 
+    def test_perguntas_sem_palavra_chave_e_por_numero(self):
+        # ajuste feito apos o teste com o Participante 1
+        for q in ["minha conta ta muito cara", "o que gasta mais em casa?", "quero gerar minha propria energia",
+                  "por que a conta nao zera?", "1", "8", str(len(r.TEMAS))]:
+            self.assertIsNotNone(r.responder(q, P, META)[0], q)
+        self.assertIsNone(r.responder("99", P, META)[0])
+
     def test_pergunta_desconhecida(self):
         self.assertIsNone(r.responder("qual o resultado do jogo de ontem", P, META)[0])
 

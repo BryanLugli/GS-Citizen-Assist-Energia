@@ -77,20 +77,43 @@ def texto_recomendacao(cenarios, P, pode_fv=True):
 
 
 # --------------------------------------------------------------- perguntas frequentes
+TEMAS = [
+    ("Como economizar na conta de luz?", "economizar"),
+    ("Quanto gasta o chuveiro / banho?", "chuveiro"),
+    ("Vale a pena trocar por lampada LED?", "led"),
+    ("Aparelho desligado na tomada gasta?", "stand-by"),
+    ("Vale a pena trocar a geladeira?", "geladeira"),
+    ("Quanto custa o kWh na Enel SP?", "tarifa"),
+    ("Como o imposto (ICMS) muda a conta?", "icms"),
+    ("Vale a pena colocar placa solar?", "placa solar"),
+    ("Moro de aluguel, posso ter placa solar?", "placa solar aluguel"),
+    ("O que e o Fio B / taxacao do sol?", "fio b"),
+    ("Qual o impacto no meio ambiente?", "co2"),
+]
+
+
+def texto_temas():
+    return "\n".join(f"   {i:>2} - {pergunta}" for i, (pergunta, _) in enumerate(TEMAS, 1))
+
+
 def responder(pergunta, P, meta):
-    """Procura palavras-chave e devolve (resposta, chaves das fontes). Sem IA generativa: resposta rastreavel."""
+    """Procura palavras-chave e devolve (resposta, chaves das fontes). Sem IA generativa: resposta rastreavel.
+    O usuario tambem pode digitar o numero de um tema da lista TEMAS."""
+    bruto = pergunta.strip()
+    if bruto.isdigit() and 1 <= int(bruto) <= len(TEMAS):
+        pergunta = TEMAS[int(bruto) - 1][1]
     q = _norm(pergunta)
     t = lambda *ps: any(p in q for p in ps)
     tarifa = c.tarifa_final(250, P)
-    if t("fio b", "taxa do sol", "taxacao"):
+    if t("fio b", "taxa do sol", "taxacao", "taxa da rede", "taxa de uso", "conta nao zera", "nao zera"):
         ano = P["ano_inicio"]
         return (f"Quem instala energia solar hoje paga uma parte da tarifa de uso da rede (o 'Fio B') sobre a energia "
                 f"que manda para a rede e depois usa como credito. Pela Lei 14.300 essa parte e de 60% em 2026, 75% em 2027 "
                 f"e 90% em 2028. Nas nossas contas usamos Fio B de {reais(P['fio_b'])}/kWh (valor estimado). "
                 f"Por isso o credito vale um pouco menos que o kWh comprado e a conta nunca chega a zero.",
                 ["fio_b_percentual", "fio_b"])
-    if t("solar", "placa", "painel", "fotovolt"):
-        if t("apartamento", "aluguel", "alugad"):
+    if t("solar", "placa", "painel", "paineis", "fotovolt", "gerar energia", "gerar minha", "propria energia", "telhado"):
+        if t("apartamento", "aluguel", "alugad", "inquilin", "nao e minha", "nao tenho telhado"):
             return ("Para instalar placas voce precisa de um telhado seu (ou autorizacao do dono/condominio), sem sombra. "
                     "Em aluguel ou apartamento, normalmente o melhor caminho e a eficiencia: banho mais curto, LED e cortar o stand-by.",
                     [])
@@ -100,24 +123,24 @@ def responder(pergunta, P, meta):
                 f"{reais(P['preco_fv_4kwp'] * 4000)} (media nacional, jun/2026). Vale mais a pena para quem tem telhado proprio "
                 f"sem sombra e conta acima de uns 200 kWh. Use a opcao 2 do menu para simular com a sua conta.",
                 ["irradiacao_hsp", "taxa_desempenho", "preco_fv_2kwp", "preco_fv_4kwp"])
-    if t("chuveiro", "banho"):
+    if t("chuveiro", "banho", "mais gasta", "gasta mais", "maior gasto", "vilao", "agua quente"):
         e = c.economia_banho(1, 8, 6)
         return (f"O chuveiro eletrico costuma ser o maior gasto da casa. Um chuveiro de 5.500 W gasta cerca de 0,09 kWh por minuto. "
                 f"Cada pessoa que reduz o banho de 8 para 6 minutos economiza cerca de {num(e)} kWh por mes "
                 f"(perto de {reais(e * tarifa)}). No calor, use a chave na posicao 'verao'.",
                 ["tarifa_tusd", "tarifa_te"])
-    if t("led", "lampada", "luz acesa", "iluminacao"):
+    if t("led", "lampada", "luz acesa", "luzes", "iluminacao", "bocal"):
         e = c.economia_led(1)
         return (f"Trocar uma lampada fluorescente de 20 W por uma LED de 9 W (mesma claridade), acesa 5 h por dia, economiza "
                 f"cerca de {num(e, 2)} kWh por mes ({reais(e * tarifa)}). A lampada custa perto de {reais(P['custo_lampada_led'])} "
                 f"e se paga em cerca de {num(P['custo_lampada_led'] / (e * tarifa), 0)} meses. Comece pelas que ficam mais tempo acesas.",
                 ["custo_lampada_led", "tarifa_tusd"])
-    if t("stand", "tomada", "desligad"):
+    if t("stand", "tomada", "desligad", "luzinha", "carregador", "tirar da tomada"):
         e = c.economia_standby()
         return (f"Aparelhos 'desligados' na tomada continuam gastando. Cortar 70% de um stand-by de 10 W economiza cerca de "
                 f"{num(e)} kWh por mes ({reais(e * tarifa)}). Uma regua com interruptor resolve.",
                 ["custo_regua"])
-    if t("geladeira", "freezer"):
+    if t("geladeira", "freezer", "refrigerador", "eletrodomestico novo", "trocar aparelho"):
         e = 55 - P["consumo_geladeira_nova"]
         anos = P["custo_geladeira_nova"] / (e * 12 * tarifa)
         return (f"Trocar uma geladeira antiga (cerca de 55 kWh/mes, estimativa) por uma nova eficiente "
@@ -126,24 +149,27 @@ def responder(pergunta, P, meta):
                 f"levaria cerca de {num(anos, 0)} anos para se pagar. Vale a pena quando a antiga ja precisa ser trocada. "
                 f"Enquanto isso: borracha da porta em bom estado, longe do fogao e sem roupa secando atras.",
                 ["custo_geladeira_nova", "consumo_geladeira_nova"])
-    if t("icms", "imposto", "200", "faixa"):
+    if t("icms", "imposto", "200", "faixa", "tributo"):
         return (f"Em Sao Paulo o ICMS da conta residencial depende do consumo: ate 90 kWh nao paga, de 91 a 200 kWh paga 12% "
                 f"e acima de 200 kWh paga 18% sobre TODO o consumo. Com 200 kWh o kWh sai por cerca de {reais(c.tarifa_final(200, P))}; "
                 f"com 201 kWh, por {reais(c.tarifa_final(201, P))}. Quem esta um pouco acima de 200 kWh ganha muito ao economizar.",
                 ["icms_faixas", "tarifa_tusd", "tarifa_te", "pis_cofins"])
-    if t("tarifa", "kwh", "preco da energia", "quanto custa a energia", "bandeira"):
+    if t("tarifa", "kwh", "preco da energia", "preco da luz", "quanto custa a energia", "quanto custa a luz", "valor da luz", "bandeira", "enel"):
         return (f"Na Enel SP a tarifa residencial e de {reais(P['tarifa_tusd'] + P['tarifa_te'])} por kWh sem impostos "
                 f"(vale de 04/07/2026 a 03/07/2027). Com impostos fica entre {reais(c.tarifa_final(150, P))} e "
                 f"{reais(c.tarifa_final(250, P))}, conforme o consumo. A bandeira tarifaria (verde, amarela ou vermelha) muda "
                 f"todo mes e pode somar um valor extra: confira na sua conta ou no site da ANEEL.",
                 ["tarifa_tusd", "tarifa_te", "pis_cofins", "icms_faixas"])
-    if t("co2", "ambiente", "poluic", "carbono", "sustent", "clima"):
+    if t("co2", "ambiente", "poluic", "carbono", "sustent", "clima", "planeta", "natureza", "verde"):
         return (f"Cada kWh que deixa de vir da rede evita em media {num(P['fator_emissao_sin'] * 1000, 1)} g de CO2 "
                 f"(fator medio do sistema eletrico brasileiro em 2025). Economizar 40 kWh por mes evita cerca de "
                 f"{num(40 * 12 * P['fator_emissao_sin'], 0)} kg de CO2 por ano. A rede brasileira ja e bastante renovavel, "
                 f"entao o maior ganho ambiental e reduzir desperdicio e aliviar a rede nos horarios de pico.",
                 ["fator_emissao_sin"])
-    if t("economizar", "diminuir", "reduzir", "baixar", "conta alta", "dica"):
+    palavras = set(q.replace("?", " ").replace(",", " ").replace(".", " ").split())
+    if ({"conta", "luz", "energia"} & palavras) and ({"cara", "caro", "alta", "alto", "subiu", "aumentou"} & palavras):
+        q += " conta alta"
+    if t("economizar", "economia", "economizo", "diminuir", "reduzir", "baixar", "conta alta", "conta cara", "conta de luz", "pagar menos", "gastar menos", "dica", "ajuda"):
         return ("Tres acoes baratas, em ordem de resultado: (1) banho mais curto e chave no 'verao' quando der; "
                 "(2) trocar por LED as lampadas que ficam mais tempo acesas; (3) cortar o stand-by com uma regua. "
                 "Use a opcao 2 do menu para ver quanto isso da na SUA conta.", [])

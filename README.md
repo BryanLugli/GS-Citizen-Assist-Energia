@@ -26,7 +26,7 @@ Módulo de energia do assistente digital Citizen Assist AI: mostra onde a casa g
 | 1 — Onde vai a energia | Consumo por equipamento de uma casa de referência (kWh e %) |
 | 2 — Simular com a minha conta | Compara situação atual, eficiência, solar e eficiência + solar: conta mensal, investimento, retorno, custo em 10 anos e CO₂ evitado; termina com uma recomendação |
 | 3 — Gasto de um aparelho | Converte potência (W) e tempo de uso em kWh e reais |
-| 4 — Fazer uma pergunta | Responde dúvidas (chuveiro, LED, stand-by, geladeira, tarifa e impostos, solar, Fio B, meio ambiente) citando as fontes |
+| 4 — Fazer uma pergunta | Responde dúvidas escritas com as palavras do usuário ou escolhidas por número numa lista de 11 temas (chuveiro, LED, stand-by, geladeira, tarifa e impostos, solar, Fio B, meio ambiente), citando as fontes |
 | 5 — Fontes e limitações | Lista todas as premissas, marcadas como REAL ou ESTIMADO |
 
 O assistente trata entradas inválidas, não pede dados pessoais e avisa que não é canal oficial.
@@ -50,7 +50,7 @@ Requisito: Python 3.10 ou mais novo. **Não precisa instalar nenhuma biblioteca.
 python assistente.py                          # assistente interativo
 python assistente.py --demo                   # análise completa da casa de referência
 python analise/gerar_relatorio.py             # recria o relatório e o CSV de resultados
-python -m unittest discover -s tests -v       # 19 testes automáticos
+python -m unittest discover -s tests -v       # 20 testes automáticos
 ```
 
 No PyCharm: abrir a pasta do projeto, clicar com o botão direito em `assistente.py` → **Run 'assistente'**.

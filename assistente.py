@@ -122,7 +122,8 @@ def um_aparelho(P):
 
 
 def perguntar(P, meta):
-    print("\nPERGUNTE  (ex.: 'vale a pena placa solar?', 'o que e fio B?', 'como economizar no banho?').")
+    print("\nPERGUNTE  - escreva sua duvida com suas palavras OU digite o numero de um destes temas:")
+    print(r.texto_temas())
     print("Para voltar ao menu, digite 0 (ou 'sair') ou aperte Enter sem escrever nada.")
     while True:
         q = ler("Sua pergunta (0 = voltar): ")
@@ -130,8 +131,8 @@ def perguntar(P, meta):
             return
         resp, chaves = r.responder(q, P, meta)
         if resp is None:
-            print("  Ainda nao sei responder isso. Temas que conheco: chuveiro, lampadas LED, stand-by, geladeira, "
-                  "tarifa e impostos, energia solar, Fio B, meio ambiente.")
+            print("  Nao entendi essa pergunta. Tente escrever de outro jeito ou digite o NUMERO de um tema:")
+            print(r.texto_temas())
             continue
         print("  " + resp)
         if chaves:
