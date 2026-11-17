@@ -1,0 +1,5 @@
+alternativa,renovavel,consumo_rede_kwh_mes,geracao_kwh_mes,conta_mes_ano1_R$,investimento_R$,payback_anos,custo_total_10anos_R$,economia_liquida_R$,co2_evitado_kg_ano
+Situacao atual,False,230.4,0.0,235.95,0.0,0.0,28313.92,0.0,0.0
+Eficiencia (habitos + LED),False,190.2,0.0,181.46,78.9,0.12,21854.3,6459.62,22.3
+Solar fotovoltaica,True,230.4,176.2,65.63,5973.0,2.98,14724.56,13589.37,97.5
+Eficiencia + solar,True,190.2,117.4,78.64,4060.9,2.17,14081.72,14232.2,87.2

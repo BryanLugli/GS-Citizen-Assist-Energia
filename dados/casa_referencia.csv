@@ -1,0 +1,11 @@
+equipamento,quantidade,potencia_w,horas_dia,dias_mes,kwh_mes_fixo,tipo_dado,observacao
+Chuveiro eletrico,1,5500,0.5333,30,,estimado,4 pessoas x 8 min por dia na posicao inverno
+Geladeira frost free 2 portas (antiga),1,,,,55,estimado,Consumo mensal de etiqueta de modelo antigo
+Lampada fluorescente compacta,8,20,5,30,,estimado,8 pontos de luz acesos 5 h por dia
+TV LED 42 pol,1,100,5,30,,estimado,
+Ventilador,1,80,6,30,,estimado,
+Computador/notebook,1,60,6,30,,estimado,
+Aparelhos em stand-by,1,10,24,30,,estimado,TV roteador micro-ondas carregadores
+Maquina de lavar roupa,1,500,1,12,,estimado,12 lavagens por mes
+Micro-ondas,1,1200,0.1667,30,,estimado,10 min por dia
+Ferro de passar,1,1000,1,4,,estimado,1 h por semana
