@@ -18,6 +18,7 @@ except Exception:
     pass
 
 LINHA = "-" * 105
+SAIR = {"", "0", "sair", "voltar", "menu", "fechar", "exit", "sai"}
 
 
 class Sair(Exception):
@@ -121,10 +122,11 @@ def um_aparelho(P):
 
 
 def perguntar(P, meta):
-    print("\nPERGUNTE  (ex.: 'vale a pena placa solar?', 'o que e fio B?', 'como economizar no banho?'). Enter vazio volta ao menu.")
+    print("\nPERGUNTE  (ex.: 'vale a pena placa solar?', 'o que e fio B?', 'como economizar no banho?').")
+    print("Para voltar ao menu, digite 0 (ou 'sair') ou aperte Enter sem escrever nada.")
     while True:
-        q = ler("Sua pergunta: ")
-        if not q:
+        q = ler("Sua pergunta (0 = voltar): ")
+        if q.strip().lower() in SAIR:
             return
         resp, chaves = r.responder(q, P, meta)
         if resp is None:
@@ -159,7 +161,7 @@ def main():
         while True:
             print("\n 1 - Ver onde vai a energia de uma casa\n 2 - Simular com a minha conta (economia x energia solar)\n"
                   " 3 - Calcular o gasto de um aparelho\n 4 - Fazer uma pergunta\n 5 - Fontes e limitacoes\n 0 - Sair")
-            op = ler("Escolha: ")
+            op = ler("Escolha: ").strip().lower()
             if op == "1":
                 mostrar_casa(P)
             elif op == "2":
@@ -170,7 +172,7 @@ def main():
                 perguntar(P, meta)
             elif op == "5":
                 fontes(meta)
-            elif op == "0":
+            elif op in ("0", "sair", "fechar", "exit"):
                 break
             else:
                 print("  Opcao invalida. Digite um numero de 0 a 5.")
