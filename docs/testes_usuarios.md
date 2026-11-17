@@ -55,4 +55,4 @@ _A preencher._
 
 ## Verificações automáticas (não substituem o teste com pessoas)
 
-`python -m unittest discover -s tests -v` — 20 testes: fórmulas de consumo, tarifa conferida com a fonte (R$ 0,9543/kWh a 200 kWh), faixas de ICMS, balanço de energia do solar, coerência da comparação, respostas com fonte tratamento de entradas inválidas e reconhecimento de perguntas escritas com palavras do dia a dia (incluído após o teste com o Participante 1).
+`python -m unittest discover -s tests -v` — 20 testes: fórmulas de consumo, tarifa conferida com a fonte (R$ 0,9543/kWh a 200 kWh), faixas de ICMS, balanço de energia do solar, coerência da comparação, respostas com fonte, tratamento de entradas inválidas e reconhecimento de perguntas escritas com palavras do dia a dia (incluído após o teste com o Participante 1).
