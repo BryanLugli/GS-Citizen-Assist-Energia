@@ -136,7 +136,9 @@ def responder(pergunta, P, meta):
         return (f"Em Sao Paulo, cada 1 kWp de placas gera em media cerca de {num(g, 0)} kWh por mes (estimativa). "
                 f"Um sistema pequeno (2 kWp) custa perto de {reais(P['preco_fv_2kwp'] * 2000)} instalado e um de 4 kWp perto de "
                 f"{reais(P['preco_fv_4kwp'] * 4000)} (media nacional, jun/2026). Vale mais a pena para quem tem telhado proprio "
-                f"sem sombra e conta acima de uns 200 kWh. Use a opcao 2 do menu para simular com a sua conta.",
+                f"sem sombra e conta acima de uns 200 kWh. Achou caro? Economize primeiro (banho mais curto, LED, stand-by): "
+                f"com menos consumo o sistema fica menor e mais barato. Peca pelo menos 3 orcamentos e veja na opcao 2 "
+                f"em quanto tempo o investimento se paga com a sua conta (estimativa).",
                 ["irradiacao_hsp", "taxa_desempenho", "preco_fv_2kwp", "preco_fv_4kwp"])
     if t("chuveiro", "banho", "mais gasta", "gasta mais", "maior gasto", "vilao", "agua quente"):
         e = c.economia_banho(1, 8, 6)

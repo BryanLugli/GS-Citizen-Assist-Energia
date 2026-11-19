@@ -50,7 +50,7 @@ Requisito: Python 3.10 ou mais novo. **Não precisa instalar nenhuma biblioteca.
 python assistente.py                          # assistente interativo
 python assistente.py --demo                   # análise completa da casa de referência
 python analise/gerar_relatorio.py             # recria o relatório e o CSV de resultados
-python -m unittest discover -s tests -v       # 21 testes automáticos
+python -m unittest discover -s tests -v       # 22 testes automáticos
 ```
 
 No PyCharm: abrir a pasta do projeto, clicar com o botão direito em `assistente.py` → **Run 'assistente'**.

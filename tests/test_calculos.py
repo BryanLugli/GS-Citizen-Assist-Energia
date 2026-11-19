@@ -115,6 +115,13 @@ class TestRespostas(unittest.TestCase):
         self.assertLessEqual(len(resumo.splitlines()), 6)
         self.assertIn("R$", resumo)
 
+    def test_solar_explica_como_baratear(self):
+        # Ajuste do teste com o Participante 3: achou as placas caras
+        P, meta = carregar_premissas()
+        resp, _ = r.responder("vale a pena colocar placa solar?", P, meta)
+        self.assertIn("mais barato", resp)
+        self.assertIn("orcamentos", resp)
+
     def test_fontes_existem(self):
         for q in ["fio b", "placa solar", "led", "co2"]:
             _, chaves = r.responder(q, P, META)
