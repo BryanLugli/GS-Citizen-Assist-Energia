@@ -76,7 +76,3 @@ No PyCharm: abrir a pasta do projeto, clicar com o botão direito em `assistente
 ## Uso de IA generativa
 
 Usamos IA generativa como apoio na pesquisa de fontes e na escrita do código e dos textos. As respostas do assistente **não** são geradas por IA em tempo de execução: saem de regras e cálculos rastreáveis no código. Os dados, as contas e as referências foram conferidos pelo grupo nas fontes listadas em `docs/referencias.md`.
-
-## Vídeo
-
-Link (YouTube, não listado): _adicionar_
