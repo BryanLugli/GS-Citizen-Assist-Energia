@@ -38,9 +38,24 @@ Perguntas finais: (1) De 1 a 5, quanto ficou fácil de entender? (2) De 1 a 5, q
 | Mudaria algum hábito? | "Economizaria junto com placas solares menores" — a mesma alternativa que a análise indica (eficiência + solar dimensionado para o consumo reduzido). |
 | Sugestão | Relatou os dois problemas acima. |
 
-### Participante 2 — ____/____/2026
+### Participante 2 — 19/11/2026
 
-_A preencher._
+**Perfil:** adulta.
+
+| Situação | Resultado |
+|---|---|
+| S1 — o que mais gasta | Identificou o **chuveiro**. |
+| S2 — simular com a conta | **Achou o kWh** na conta e fez a simulação. |
+| S3 — o que faria primeiro | Respondeu que **economizaria** (eficiência) primeiro. |
+| S4 — perguntar sobre placa solar | Entendeu a resposta: disse que **vale a pena, porque reduz muito a conta**. |
+| S5 — gasto de um aparelho | **Conseguiu calcular**. |
+
+| Pergunta final | Resposta |
+|---|---|
+| Fácil de entender (1–5) | **5** |
+| Ajudaria a decidir (1–5) | **5** |
+| Palavra que não entendeu | Nenhuma: entendeu tudo |
+| O que faltou | **Os textos ficaram muito longos.** |
 
 ### Participante 3 — ____/____/2026
 
@@ -52,7 +67,8 @@ _A preencher._
 |---|---|---|---|
 | Não conseguia sair da tela de perguntas: digitou "0" e "fechar" e o assistente não entendeu | Participante 1 | Passou a aceitar "0", "sair", "voltar", "fechar" e Enter vazio; aviso na tela explicando como voltar; "sair" e "fechar" também funcionam no menu principal | `assistente.py` |
 | O assistente só entendia perguntas com palavras-chave específicas | Participante 1 | (1) Lista de 11 temas numerados exibida na tela de perguntas: o usuário pode digitar só o número; (2) mais sinônimos e frases do dia a dia ("minha conta tá muito cara", "o que gasta mais", "quero gerar minha própria energia", "por que a conta não zera"); (3) quando não entende, mostra a lista de temas em vez de só uma mensagem de erro; (4) novo teste automático com essas frases | `energia/respostas.py`, `assistente.py`, `tests/test_calculos.py` |
+| Os textos ficaram muito longos | Participante 2 | A simulação (opção 2) agora mostra primeiro um **resumo de 5 linhas** (conta hoje, melhor opção, quanto a conta pode cair, investimento e primeiro passo) e pergunta se a pessoa quer ver os detalhes (tabela, limites e fontes). As respostas da opção 4 passaram a ser quebradas em linhas mais curtas. Novo teste automático confere que o resumo é curto | `energia/respostas.py`, `assistente.py`, `tests/test_calculos.py` |
 
 ## Verificações automáticas (não substituem o teste com pessoas)
 
-`python -m unittest discover -s tests -v` — 20 testes: fórmulas de consumo, tarifa conferida com a fonte (R$ 0,9543/kWh a 200 kWh), faixas de ICMS, balanço de energia do solar, coerência da comparação, respostas com fonte, tratamento de entradas inválidas e reconhecimento de perguntas escritas com palavras do dia a dia (incluído após o teste com o Participante 1).
+`python -m unittest discover -s tests -v` — 21 testes: fórmulas de consumo, tarifa conferida com a fonte (R$ 0,9543/kWh a 200 kWh), faixas de ICMS, balanço de energia do solar, coerência da comparação, respostas com fonte, tratamento de entradas inválidas e reconhecimento de perguntas escritas com palavras do dia a dia (incluído após o teste com o Participante 1) e tamanho do resumo da simulação (incluído após o teste com o Participante 2).

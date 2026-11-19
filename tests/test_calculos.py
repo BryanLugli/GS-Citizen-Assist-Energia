@@ -107,6 +107,14 @@ class TestRespostas(unittest.TestCase):
     def test_pergunta_desconhecida(self):
         self.assertIsNone(r.responder("qual o resultado do jogo de ontem", P, META)[0])
 
+    def test_resumo_curto(self):
+        # Ajuste do teste com o Participante 2: o resumo mostrado primeiro tem poucas linhas
+        P, _ = carregar_premissas()
+        cen = c.comparar(230.4, 40.2, 78.9, P, "bifasica")
+        resumo = r.texto_resumo(cen, P, True)
+        self.assertLessEqual(len(resumo.splitlines()), 6)
+        self.assertIn("R$", resumo)
+
     def test_fontes_existem(self):
         for q in ["fio b", "placa solar", "led", "co2"]:
             _, chaves = r.responder(q, P, META)

@@ -58,6 +58,21 @@ def texto_comparacao(cenarios, P):
     return "\n".join(L)
 
 
+def texto_resumo(cenarios, P, pode_fv=True):
+    """Resumo curto (poucas linhas) mostrado primeiro; os detalhes ficam para quem pedir.
+    Ajuste feito apos o teste com o Participante 2, que achou os textos longos demais."""
+    escolhido, passos = c.recomendar(cenarios, pode_fv)
+    base = cenarios[0]
+    economia = base["conta_mes_ano1"] - escolhido["conta_mes_ano1"]
+    L = ["RESUMO (estimativa, nao e garantia):",
+         f"  Hoje sua conta fica em cerca de {reais(base['conta_mes_ano1'])} por mes.",
+         f"  Melhor opcao para voce: {escolhido['nome']}.",
+         f"  A conta pode cair para cerca de {reais(escolhido['conta_mes_ano1'])} "
+         f"(menos {reais(economia)} por mes), investindo {reais(escolhido['investimento'])}.",
+         f"  Primeiro passo: {passos[0]}"]
+    return "\n".join(L)
+
+
 def texto_recomendacao(cenarios, P, pode_fv=True):
     escolhido, passos = c.recomendar(cenarios, pode_fv)
     base = cenarios[0]

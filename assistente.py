@@ -7,6 +7,7 @@ Uso:
 So usa a biblioteca padrao do Python (nao precisa instalar nada).
 """
 import sys
+import textwrap
 
 from energia import calculos as c
 from energia import respostas as r
@@ -94,6 +95,15 @@ def simular(P, meta, consumo=None, demo=False):
         econ = consumo * 0.6
     cen = c.comparar(consumo, econ, invest, P, lig)
     print("\n" + LINHA)
+    print(r.texto_resumo(cen, P, pode))
+    print(LINHA)
+    if not demo:
+        ver = ler_opcao("Quer ver os detalhes (contas, tabela de comparacao, limites e fontes)? (s/n): ",
+                        {"s": True, "n": False})
+        if not ver:
+            print("  Ok. Os limites e as fontes tambem ficam na opcao 5 do menu.")
+            return cen
+    print("\nDETALHES")
     print(f"Consumo informado: {r.num(consumo)} kWh/mes | conta estimada hoje: {r.reais(cen[0]['conta_mes_ano1'])}")
     print("Medidas de eficiencia consideradas:")
     for nome, kwh, custo in medidas:
@@ -134,7 +144,7 @@ def perguntar(P, meta):
             print("  Nao entendi essa pergunta. Tente escrever de outro jeito ou digite o NUMERO de um tema:")
             print(r.texto_temas())
             continue
-        print("  " + resp)
+        print(textwrap.fill(resp, width=100, initial_indent="  ", subsequent_indent="  "))
         if chaves:
             print("  Fontes:\n" + r.fontes_usadas(meta, chaves))
         print("  (estimativa; veja a opcao 5 para condicoes e limites)")
